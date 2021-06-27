@@ -1,0 +1,28 @@
+{
+  "name": "farrow-json-schema",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tqma113/farrow-json-schema.git",
+  "author": "Ma Tianqi <mtq1997@126.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.5",
+    "farrow-api": "^1.10.8",
+    "farrow-pipeline": "^1.10.6",
+    "farrow-schema": "^1.10.8",
+    "jest": "^27.0.5",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.4"
+  },
+  "peerDependencies": {
+    "farrow-schema": "^1.10.8"
+  },
+  "dependencies": {
+    "@types/json-schema": "^7.0.7"
+  }
+}

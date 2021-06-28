@@ -22,9 +22,9 @@ describe('transform', () => {
       definitions: {
         0: {
           $id: '0',
-          type: 'integer'
-        }
-      }
+          type: 'integer',
+        },
+      },
     })
   })
 
@@ -57,9 +57,9 @@ describe('transform', () => {
           definitions: {
             0: {
               $id: '0',
-              type: 'integer'
-            }
-          }
+              type: 'integer',
+            },
+          },
         })
 
         const outputJSONSchema = transformResult({ typeId: incre.output.typeId, types: formatResult.types })
@@ -69,9 +69,9 @@ describe('transform', () => {
           definitions: {
             0: {
               $id: '0',
-              type: 'integer'
-            }
-          }
+              type: 'integer',
+            },
+          },
         })
       }
     }

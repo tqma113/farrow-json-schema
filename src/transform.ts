@@ -1,5 +1,7 @@
 import { toSchemaCtor, FieldDescriptor, isSchemaCtor } from 'farrow-schema'
-import { formatSchema, FormatTypes,
+import {
+  formatSchema,
+  FormatTypes,
   FormatType,
   FormatScalarType,
   FormatObjectType,
@@ -16,12 +18,13 @@ import { formatSchema, FormatTypes,
   FormatStrictType,
   FormatNonStrictType,
   FormatReadOnlyType,
-  FormatReadonlyDeepType, } from 'farrow-schema/formatter'
+  FormatReadonlyDeepType,
+} from 'farrow-schema/formatter'
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
 
 export type FormatResult = {
-  typeId: number;
-  types: FormatTypes;
+  typeId: number
+  types: FormatTypes
 }
 
 export const transform = (input: FieldDescriptor): JSONSchema7 => {
@@ -34,7 +37,7 @@ export const transform = (input: FieldDescriptor): JSONSchema7 => {
     const formatResult = formatSchema(schemaCtor)
     return {
       ...transformResult(formatResult),
-      description: input.description
+      description: input.description,
     }
   }
 }
@@ -99,27 +102,27 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
         }
       case 'ID':
         return {
-          type: 'integer'
+          type: 'integer',
         }
       case 'Number':
         return {
-          type: 'number'
+          type: 'number',
         }
       case 'Int':
         return {
-          type: 'integer'
+          type: 'integer',
         }
       case 'Float':
         return {
-          type: 'number'
+          type: 'number',
         }
       case 'Boolean':
         return {
-          type: 'boolean'
+          type: 'boolean',
         }
       case 'Date':
         return {
-          type: 'string'
+          type: 'string',
         }
       case 'Unknown':
         return {}
@@ -141,8 +144,8 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
   }
 
   type Properties = {
-    [key: string]: JSONSchema7Definition;
-}
+    [key: string]: JSONSchema7Definition
+  }
   const transformFieldsType = (input: FormatFields): JSONSchema7 => {
     const properties: Properties = {}
 
@@ -151,7 +154,7 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     }
 
     return {
-      properties
+      properties,
     }
   }
 
@@ -165,7 +168,7 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
   const transformUnionType = (input: FormatUnionType): JSONSchema7 => {
     const items: JSONSchema7[] = input.itemTypes.map(({ typeId }) => findSchema(typeId))
     return {
-      oneOf: items
+      oneOf: items,
     }
   }
 
@@ -173,17 +176,17 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     const items: JSONSchema7[] = input.itemTypes.map(({ typeId }) => findSchema(typeId))
 
     const properties: Properties = {}
-    for(const item of items) {
+    for (const item of items) {
       if (item.properties) {
-        for(const key in item.properties) {
+        for (const key in item.properties) {
           properties[key] = item.properties[key]
         }
       }
-    } 
+    }
 
     return {
       type: 'object',
-      properties
+      properties,
     }
   }
 
@@ -199,7 +202,7 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     const item = findSchema(input.valueTypeId)
     return {
       type: 'object',
-      additionalProperties: item
+      additionalProperties: item,
     }
   }
 
@@ -207,7 +210,7 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     const item = findSchema(input.itemTypeId)
     return {
       type: 'array',
-      additionalItems: item
+      additionalItems: item,
     }
   }
 
@@ -215,15 +218,13 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     const items = input.itemTypes.map(({ typeId }) => findSchema(typeId))
     return {
       type: 'array',
-      items
+      items,
     }
   }
 
   const transformLiteralType = (input: FormatLiteralType): JSONSchema7 => {
     return {
-      const: [
-        input.value!
-      ]
+      const: [input.value!],
     }
   }
 
@@ -233,9 +234,9 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
       anyOf: [
         item,
         {
-          const: [null]
-        }
-      ]
+          const: [null],
+        },
+      ],
     }
   }
 
@@ -259,7 +260,6 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     return item
   }
 
-
   const schemas = new Map<string, JSONSchema7>()
 
   const findSchema = (typeId: number): JSONSchema7 => {
@@ -272,12 +272,12 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     }
 
     return {
-      '$ref': `#/definitions/${typeId}`
+      $ref: `#/definitions/${typeId}`,
     }
   }
 
   const findType = (typeId: number): FormatType => {
-    for(const key in formatResult.types) {
+    for (const key in formatResult.types) {
       if (key == `${typeId}`) {
         return formatResult.types[key]
       }
@@ -290,7 +290,7 @@ export const transformResult = (formatResult: FormatResult): JSONSchema7 => {
     if (!schemas.has(id)) {
       schemas.set(id, {
         $id: id,
-        ...transformType(formatResult.types[id])
+        ...transformType(formatResult.types[id]),
       })
     }
   }
